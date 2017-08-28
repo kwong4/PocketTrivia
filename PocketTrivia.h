@@ -24,5 +24,5 @@ struct Question
 };
 
 //functions
-Question parse_questions(const char* textfile);
+void parse_questions(Question *questions, const char* textfile);
 #endif
