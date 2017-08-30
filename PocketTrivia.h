@@ -14,6 +14,12 @@ using namespace std;
 #define HEIGHT 480
 #define MAX_WORD 256
 #define MAX_ANSWER 4
+#define TEXT texts.txt
+#define TEXTNUMBER 1
+#define UNIT units.txt
+#define UNITNUMBER 4
+#define CHAPTER chapters.txt
+#define CHAPTERNUMBER 22
 
 //define question structure
 struct Question
@@ -21,6 +27,12 @@ struct Question
 	char str_question[MAX_WORD];
 	char str_answer[MAX_ANSWER][MAX_WORD];
 	int answer;
+};
+
+struct Option
+{
+	char str_name[MAX_WORD];
+	char** str_filename;	
 };
 
 //functions

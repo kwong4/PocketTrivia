@@ -8,10 +8,49 @@ using namespace std;
 // Change Questions answers to char* and malloc correct amount of space.
 // Do this in conjuction with a cleanup function (free)
 
+void parse_options(Option *options, const char* textfile) {
+	
+	FILE *file = fopen(textfile, "r");
+	char line[256];
+	int current_option = -1;
+	int end_position = 0;
+	int current_file = 0;
+	int i;
+	if (file != NULL) {
+		while(fgets(line, sizeof(line), file)) {
+			end_position = strcspn(line, "\n") - 1;
+			if (strncmp(line, "-", 1) == 0) {
+				current_option++;
+				strncpy(options[current_option].str_name, &line[1], end_position);
+				strncpy(options[current_option].str_name, "\0", 1);
+				fgets(line, sizeof(line), file);
+				end_position = strcspn(line, "\n") - 1;
+				strncpy(line, "\0", 1);
+				sscanf(line, "%d", &current_file);
+				char **temp = (char **) malloc(current_file * sizeof(char *));
+				for (i = 0; i < current_file; i++) {
+					temp[i] = (char *) malloc (MAX_WORD * sizeof(char));
+				}
+				options[current_option].str_filename = temp;
+				current_file = 0;
+			}
+			else {
+				strncpy(options[current_option].str_filename[current_file], &line[1], end_position);
+				strncpy(&options[current_option].str_filename[current_file][end_position], "\0", 1);
+				current_file++;
+			}
+		}
+		fclose(file);
+	}
+	else {
+		exit(0);
+	}
+}
+
 void parse_questions(Question *questions, const char* textfile) 
 {
 	FILE *file = fopen(textfile, "r");
-	char line[256];
+	char line[MAX_WORD];
 	
 	int answer = 0;
 	int end_position = 0;
@@ -37,7 +76,7 @@ void parse_questions(Question *questions, const char* textfile)
 		fclose(file);
 	}
 	else {
-		textprintf_ex(screen, font, 0, 70, 15, -1, "%s", "File not found");
+		exit(0);
 	}
 }
 
