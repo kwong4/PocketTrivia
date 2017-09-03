@@ -19,13 +19,18 @@ using namespace std;
 #define MAX_ANSWER 4
 #define MAX_FILE 10
 #define TOPIC "topics.txt"
-#define TOPICNUMBER 1
+#define TOPICNUMBER 2
 #define TEXT "texts.txt"
 #define TEXTNUMBER 1
 #define UNIT "units.txt"
-#define UNITNUMBER 4
+#define MAX_UNITNUMBER 4
 #define CHAPTER "chapters.txt"
-#define CHAPTERNUMBER 22
+#define MAX_CHAPTERNUMBER 22
+#define SELECTION_BUFFER 70
+
+int selection;
+int max_selection;
+char folder_topic[MAX_WORD];
 
 //define question structure
 struct Question
@@ -40,6 +45,8 @@ struct Option
 	char str_name[MAX_WORD];
 	char str_filename[MAX_FILE][MAX_WORD];	
 };
+
+Question *questions;
 
 //functions
 void parse_questions(Question *questions, const char* textfile);

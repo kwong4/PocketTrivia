@@ -8,6 +8,29 @@ using namespace std;
 // Change Questions answers to char* and malloc correct amount of space.
 // Do this in conjuction with a cleanup function (free)
 
+int getinput() {
+	if (key[KEY_ESC]) {
+		allegro_exit();
+		exit(0);
+	}
+	
+	if (key[KEY_DOWN] && selection != max_selection) {
+		rectfill(screen, WIDTH/8 + 1, HEIGHT/4 + SELECTION_BUFFER + selection * 15 - 1, WIDTH/8 + 9, HEIGHT/4 + SELECTION_BUFFER + selection * 15 + 7, BLACK);
+		selection++;
+		rectfill(screen, WIDTH/8 + 1, HEIGHT/4 + SELECTION_BUFFER + selection * 15 - 1, WIDTH/8 + 9, HEIGHT/4 + SELECTION_BUFFER + selection * 15 + 7, WHITE);
+	}
+	else if (key[KEY_UP] && selection != 0) {
+		rectfill(screen, WIDTH/8 + 1, HEIGHT/4 + SELECTION_BUFFER + selection * 15 - 1, WIDTH/8 + 9, HEIGHT/4 + SELECTION_BUFFER + selection * 15 + 7, BLACK);
+		selection--;
+		rectfill(screen, WIDTH/8 + 1, HEIGHT/4 + SELECTION_BUFFER + selection * 15 - 1, WIDTH/8 + 9, HEIGHT/4 + SELECTION_BUFFER + selection * 15 + 7, WHITE);
+	}
+	else if (key[KEY_ENTER]) {
+		return 1;
+	}
+	
+	return 0;
+}
+
 void parse_options(struct Option options[], const char* textfile) {
 	
 	FILE *file = fopen(textfile, "r");
@@ -35,6 +58,15 @@ void parse_options(struct Option options[], const char* textfile) {
 	else {
 		exit(0);
 	}
+}
+
+char* concat(const char* foldername, const char* filename) 
+{
+	char* result = (char*) malloc(strlen(foldername) + strlen(filename) + 2);
+	strcpy(result, foldername);
+	strcat(result, "\\");
+	strcat(result, filename);
+	return result;
 }
 
 void parse_questions(Question questions[], const char* textfile) 
@@ -67,6 +99,7 @@ void parse_questions(Question questions[], const char* textfile)
 		fclose(file);
 	}
 	else {
+		allegro_exit();
 		exit(0);
 	}
 }
@@ -92,7 +125,7 @@ int main(void)
         allegro_message(allegro_error);
         return 0;
     }
-    /*
+    
     //Print initial Start Screen with instructions
     textout_centre_ex(screen, font, "Pocket Trivia", WIDTH/2, HEIGHT/4, WHITE, BLACK);
     
@@ -105,35 +138,94 @@ int main(void)
     textout_ex(screen, font, "4. Press Esc to exit the game!", WIDTH/8, HEIGHT/2 + 90, WHITE, BLACK);
     
     //Wait until user press Enter
-    while(!key[KEY_ENTER]) {
+    while(1) {
+    	if (key[KEY_ENTER]) {
+    		break;
+    	}
+    	else if (key[KEY_ESC]) {
+    		allegro_exit();
+    		exit(0);
+    	}
 		rest(100);
 	};
+	
 	// Clear screen
     rectfill(screen, 0, 0, WIDTH, HEIGHT, BLACK);
     
-    */
     struct Option topics[TOPICNUMBER];
     //topics = (struct Option*) malloc(TOPICNUMBER * sizeof(struct Option));
     
     parse_options(topics, TOPIC);
     
-    position = 60;
-    textout_ex(screen, font, "Please select a topic!", WIDTH/8, HEIGHT/2 + 50, WHITE, BLACK);
+    position = SELECTION_BUFFER;
+    textout_ex(screen, font, "Please select a topic!", WIDTH/8, HEIGHT/4 + SELECTION_BUFFER - 20, WHITE, BLACK);
     
     for(i = 0; i < TOPICNUMBER; i++) {
-    	position += 10;
-    	textprintf_ex(screen, font, WIDTH/8, HEIGHT/2 + position, WHITE, BLACK, "   %s", topics[i].str_name);
+    	rect(screen, WIDTH/8, HEIGHT/4 + position - 2, WIDTH/8 + 10, HEIGHT/4 + position + 8, WHITE);
+    	textprintf_ex(screen, font, WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK, "%s", topics[i].str_name);
+    	position += 15;
     }
     
-    
+    rectfill(screen, WIDTH/8 + 1, HEIGHT/4 + SELECTION_BUFFER - 1, WIDTH/8 + 9, HEIGHT/4 + SELECTION_BUFFER + 7, WHITE);
+    max_selection = TOPICNUMBER - 1;
     //textout_ex(screen, font, "2. Use the ENTER key to select an option", WIDTH/8, HEIGHT/2 + 80, WHITE, BLACK);
     //textout_ex(screen, font, "3. Then use the NUMBER keys to choose an answer for a question", WIDTH/8, HEIGHT/2 + 90, WHITE, BLACK);
-    
+    rest(1000);
     //Wait until user press Enter
-    while(!key[KEY_ESC]) {
+    while(1) {
+    	if (getinput() == 1) {
+    		break;
+    	}
 		rest(100);
 	};
     
+    rest(500);
+    
+    // Clear screen
+    rectfill(screen, 0, 0, WIDTH, HEIGHT, BLACK);
+    
+    strcpy(folder_topic, topics[selection].str_filename[0]);
+    
+    position = SELECTION_BUFFER;
+    textout_ex(screen, font, "Please select an option to choose your questions!", WIDTH/8, HEIGHT/4 + SELECTION_BUFFER - 20, WHITE, BLACK);
+    
+    rect(screen, WIDTH/8, HEIGHT/4 + position - 2, WIDTH/8 + 10, HEIGHT/4 + position + 8, WHITE);
+    textout_ex(screen, font, "All Questions (Whole textbook)", WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK);
+    position += 15;
+    rect(screen, WIDTH/8, HEIGHT/4 + position - 2, WIDTH/8 + 10, HEIGHT/4 + position + 8, WHITE);
+    textout_ex(screen, font, "Choose by Unit", WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK);
+    position += 15;
+    rect(screen, WIDTH/8, HEIGHT/4 + position - 2, WIDTH/8 + 10, HEIGHT/4 + position + 8, WHITE);
+    textout_ex(screen, font, "Choose by Chapter", WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK);
+    
+    max_selection = 2;
+    selection = 0;
+    
+    //textprintf_ex(screen, font, WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK, "%s", folder_topic);
+    
+    while(1) {
+		if (getinput() == 1) {
+    		break;
+    	}
+		rest(100);
+	};
+    
+    if (selection == 0) {
+    	questions = (Question *) malloc(sizeof(Question) * MAX_CHAPTERNUMBER);
+    	//parse_questions(questions, 
+    	//load all
+    	//use concat
+    }
+    else if (selection = 1) {
+    	questions = (Question *) malloc(sizeof(Question) * MAX_UNITNUMBER);
+    	parse_questions(questions, UNIT);
+    }
+    else {
+    	questions = (Question *) malloc(sizeof(Question) * MAX_CHAPTERNUMBER);
+    	parse_questions(questions, CHAPTER);
+    }
+    
+    free(questions);
     /*
     Question* question1;
     question1 = (struct Question*) malloc(1 * sizeof(struct Question));
@@ -146,6 +238,9 @@ int main(void)
     textprintf_ex(screen, font, 0, 70, WHITE, BLACK, "D. %s", question1->str_answer[3]);
     */
     
+    while(key[KEY_ESC]) {
+		rest(100);
+	};
     
     //free(question1);
     allegro_exit();

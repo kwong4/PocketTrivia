@@ -1,17 +1,17 @@
 # Project: PocketTrivia
 # Makefile created by Dev-C++ 5.11
 
-CPP      = g++.exe -D__DEBUG__
-CC       = gcc.exe -D__DEBUG__
+CPP      = g++.exe
+CC       = gcc.exe
 WINDRES  = windres.exe
 OBJ      = PocketTrivia.o
 LINKOBJ  = PocketTrivia.o
-LIBS     = -L"D:/Useful Programs/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -mwindows "../../Useful Programs/Dev-Cpp/MinGW64/lib/liballegro-4.4.2-md.a" -m32 -g3
+LIBS     = -L"D:/Useful Programs/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -mwindows "../../Useful Programs/Dev-Cpp/MinGW64/lib/liballegro-4.4.2-md.a" -m32
 INCS     = -I"D:/Useful Programs/Dev-Cpp/MinGW64/include" -I"D:/Useful Programs/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Useful Programs/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"D:/Useful Programs/Dev-Cpp/MinGW64/include" -I"D:/Useful Programs/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Useful Programs/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/Useful Programs/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
 BIN      = PocketTrivia.exe
-CXXFLAGS = $(CXXINCS) -m32 -g3
-CFLAGS   = $(INCS) -m32 -g3
+CXXFLAGS = $(CXXINCS) -m32
+CFLAGS   = $(INCS) -m32
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom

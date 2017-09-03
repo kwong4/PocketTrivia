@@ -1,23 +1,22 @@
--Game Programming All In One, 3/e
- Questions\chapter1.txt
- Questions\chapter2.txt
- Questions\chapter3.txt
- Questions\chapter4.txt
- Questions\chapter5.txt
- Questions\chapter6.txt
- Questions\chapter7.txt
- Questions\chapter8.txt
- Questions\chapter9.txt
- Questions\chapter10.txt
- Questions\chapter11.txt
- Questions\chapter12.txt
- Questions\chapter13.txt
- Questions\chapter14.txt
- Questions\chapter15.txt
- Questions\chapter16.txt
- Questions\chapter17.txt
- Questions\chapter18.txt
- Questions\chapter19.txt
- Questions\chapter20.txt
- Questions\chapter21.txt
- Questions\chapter22.txt
+Questions\chapter1.txt
+Questions\chapter2.txt
+Questions\chapter3.txt
+Questions\chapter4.txt
+Questions\chapter5.txt
+Questions\chapter6.txt
+Questions\chapter7.txt
+Questions\chapter8.txt
+Questions\chapter9.txt
+Questions\chapter10.txt
+Questions\chapter11.txt
+Questions\chapter12.txt
+Questions\chapter13.txt
+Questions\chapter14.txt
+Questions\chapter15.txt
+Questions\chapter16.txt
+Questions\chapter17.txt
+Questions\chapter18.txt
+Questions\chapter19.txt
+Questions\chapter20.txt
+Questions\chapter21.txt
+Questions\chapter22.txt
