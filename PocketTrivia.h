@@ -25,7 +25,9 @@ using namespace std;
 #define UNIT "units.txt"
 #define MAX_UNITNUMBER 4
 #define CHAPTER "chapters.txt"
+#define QUESTION_FOLDER "Questions"
 #define MAX_CHAPTERNUMBER 22
+#define MAX_QUESTIONS_PER_FILE 10
 #define SELECTION_BUFFER 70
 
 int selection;
