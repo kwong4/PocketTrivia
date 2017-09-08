@@ -43,6 +43,9 @@ void parse_options(struct Option options[], const char* textfile) {
 		while(fgets(line, sizeof(line), file)) {
 			end_position = strcspn(line, "\n") - 1;
 			if (strncmp(line, "-", 1) == 0) {
+				if (current_option != -1) {
+					options[current_option].files = current_file;	
+				}
 				current_option++;
 				current_file = 0;
 				strncpy(options[current_option].str_name, &line[1], end_position);
@@ -54,6 +57,7 @@ void parse_options(struct Option options[], const char* textfile) {
 				current_file++;
 			}
 		}
+		options[current_option].files = current_file;
 		fclose(file);
 	}
 	else {
@@ -96,10 +100,17 @@ void parse_questions(Question questions[], const char* textfile)
 				answer++;
 			}
 		}
-	
 		fclose(file);
 	}
 	else {
+		textprintf_ex(screen, font, 0, 300, WHITE, BLACK, "filename: %s, current_question: %i", textfile, current_question);
+		rest(500);
+		while(1) {
+			if (key[KEY_LEFT]) {
+	    		break;
+	    	}
+			rest(100);
+		};
 		allegro_exit();
 		exit(0);
 	}
@@ -183,10 +194,12 @@ int main(void)
     set_color_depth(desktop_color_depth());
     
     //Initalize variables
-    int i;
+    int i, j;
     int position;
     int current_file;
     int end_position;
+    int num_files = 0;
+    int all_questions = 0;
     
     //Initialize Graphics
     int ret;
@@ -258,10 +271,11 @@ int main(void)
     rectfill(screen, 0, 0, WIDTH, HEIGHT, BLACK);
     
     if (selection == 0) {
-    	questions = (Question *) malloc(sizeof(Question) * MAX_CHAPTERNUMBER);
+    	questions = (Question *) malloc(sizeof(Question) * MAX_QUESTIONS_PER_FILE *  MAX_CHAPTERNUMBER);
     	
     	parse_all_questions(questions, concat(folder_topic, QUESTION_FOLDER));
     	
+    	all_questions = 1;
     	/*
     	textprintf_ex(screen, font, 0, 30, WHITE, BLACK, "%s", questions[0].str_question);
 	    textprintf_ex(screen, font, 0, 40, WHITE, BLACK, "A. %s", questions[0].str_answer[0]);
@@ -271,41 +285,107 @@ int main(void)
 	    */
     }
     else if (selection == 1) {
-    	struct Option units[MAX_UNITNUMBER];
-    	parse_options(units, concat(folder_topic, UNIT));
+    	text_options = (Option *) malloc(sizeof(Option) * MAX_UNITNUMBER);
+    	parse_options(text_options, concat(folder_topic, UNIT));
     	
     	// Print options for user
-    	print_options(units, "Please select all units you wish to be tested on!", MAX_UNITNUMBER, 1);
+    	print_options(text_options, "Please select all units you wish to be tested on!", MAX_UNITNUMBER, 1);
     	max_selection = MAX_UNITNUMBER;
     }
     else {
-    	struct Option chapters[MAX_CHAPTERNUMBER];
-    	parse_options(chapters, concat(folder_topic, CHAPTER));
+    	text_options = (Option *) malloc(sizeof(Option) * MAX_CHAPTERNUMBER);
+    	parse_options(text_options, concat(folder_topic, CHAPTER));
     	
     	// Print options for user
-    	print_options(chapters, "Please select all chapters you wish to be tested on!", MAX_CHAPTERNUMBER, 1);
+    	print_options(text_options, "Please select all chapters you wish to be tested on!", MAX_CHAPTERNUMBER, 1);
     	max_selection = MAX_CHAPTERNUMBER;
     }
 	
+	
+	
+	if (all_questions == 0) {
+		
+		rest(500);
+		
+		while(1) {
+			if (getinput() == 1) {
+				if (selection == max_selection) {
+					break;
+				}
+				else {
+					if (text_options[selection].selected == 1) {
+						text_options[selection].selected = 0;
+						num_files -= text_options[selection].files;
+						rect(screen, WIDTH/8, HEIGHT/4 + selection * 15 - 2, WIDTH/8 + 10, HEIGHT/4 + selection * 15 + 8, WHITE);
+					}
+					else {
+						text_options[selection].selected = 1;
+						num_files += text_options[selection].files;
+						rect(screen, WIDTH/8, HEIGHT/4 + selection * 15 - 2, WIDTH/8 + 10, HEIGHT/4 + selection * 15 + 8, RED);
+					}
+				}
+	    	}
+			rest(100);
+		};	
+		
+		questions = (Question *) malloc(sizeof(Question) * MAX_QUESTIONS_PER_FILE * num_files);
+		current_file = -1;
+		
+		for (i = 0; i < max_selection; i++) {
+			if (text_options[i].selected == 1) {
+				for (j = 0; j < text_options[i].files; j++) {
+					current_file++;
+					//end_position = strcspn(text_options[selection].str_filename[j], "\n");
+	    			//strncpy(&text_options[selection].str_filename[j][end_position], "\0", 1);
+	    			textprintf_ex(screen, font, 0, 400, WHITE, BLACK, "NUM: %i, Loop: %i, file num: %i, file: %s", text_options[i].files, i, j, text_options[i].str_filename[j]);
+	    			rest(1000);
+				    while(1) {
+						if (getinput() == 1) {
+				    		break;
+				    	}
+						rest(100);
+					};
+					parse_questions(&questions[current_file * MAX_QUESTIONS_PER_FILE], concat(concat(folder_topic, QUESTION_FOLDER), text_options[i].str_filename[j]));
+				}
+			}
+		}
+	}
     /*
     Question* question1;
     question1 = (struct Question*) malloc(1 * sizeof(struct Question));
     parse_questions(question1, "Questions\\chapter1x.txt");
-    
-    textprintf_ex(screen, font, 0, 30, WHITE, BLACK, "%s", question1->str_question);
-    textprintf_ex(screen, font, 0, 40, WHITE, BLACK, "A. %s", question1->str_answer[0]);
-    textprintf_ex(screen, font, 0, 50, WHITE, BLACK, "B. %s", question1->str_answer[1]);
-    textprintf_ex(screen, font, 0, 60, WHITE, BLACK, "C. %s", question1->str_answer[2]);
-    textprintf_ex(screen, font, 0, 70, WHITE, BLACK, "D. %s", question1->str_answer[3]);
     */
     
+    rest(1000);
+    
     while(1) {
-		if (getinput() == 1 && selection == max_selection) {
+		if (getinput() == 1) {
     		break;
     	}
 		rest(100);
 	};
+    
+    
+    // Clear screen
+    rectfill(screen, 0, 0, WIDTH, HEIGHT, BLACK);
+    
+    textprintf_ex(screen, font, 0, 30, WHITE, BLACK, "%s", questions[0].str_question);
+    //textprintf_ex(screen, font, 0, 40, WHITE, BLACK, "A. %s", questions[0].str_answer[0]);
+    //textprintf_ex(screen, font, 0, 50, WHITE, BLACK, "B. %s", questions[0].str_answer[1]);
+    //textprintf_ex(screen, font, 0, 60, WHITE, BLACK, "C. %s", questions[0].str_answer[2]);
+    //textprintf_ex(screen, font, 0, 70, WHITE, BLACK, "D. %s", questions[0].str_answer[3]);
+    
+    rest(1000);
+    
+    while(1) {
+		if (getinput() == 1) {
+    		break;
+    	}
+		rest(100);
+	};
+    
     free(questions);
+    free(text_options);
     allegro_exit();
 	return 0;
 }     

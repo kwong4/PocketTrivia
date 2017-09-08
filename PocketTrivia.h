@@ -13,7 +13,8 @@ using namespace std;
 #define WIDTH 640
 #define HEIGHT 480
 #define WHITE makecol(255,255,255)
-#define YELLOW makecol(221,216,0)
+#define YELLOW makecol(255,216,0)
+#define RED makecol(255,0,0)
 #define BLACK makecol(0,0,0)
 #define MAX_WORD 256
 #define MAX_ANSWER 4
@@ -46,9 +47,12 @@ struct Option
 {
 	char str_name[MAX_WORD];
 	char str_filename[MAX_FILE][MAX_WORD];	
+	int selected;
+	int files;
 };
 
 Question *questions;
+Option *text_options;
 
 //functions
 void parse_questions(Question *questions, const char* textfile);
