@@ -1,5 +1,0 @@
--What programming language is used in this book?
-*C
- Pascal
- C++
- Assembly

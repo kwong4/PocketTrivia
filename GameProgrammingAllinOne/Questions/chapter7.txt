@@ -1,4 +1,4 @@
-1. What does ‘‘blit’’ stand for?
+-What does "blit" stand for?
  Blitzkrieg
 *Bit-block transfer
  Bit-wise transparency
@@ -7,7 +7,7 @@
  Dynamic hard drive
  Destructive hyperactivity disorder
 *Dial home device
- That wasn’t in the chapter!
+ That wasn't in the chapter!
 -How many pixels are there in an 800 x 600 screen?
 *480,000
  28,800,000

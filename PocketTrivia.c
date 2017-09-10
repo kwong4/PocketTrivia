@@ -15,14 +15,14 @@ int getinput() {
 	}
 	
 	if (key[KEY_DOWN] && selection != max_selection) {
-		rectfill(screen, WIDTH/8 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/8 + 9, HEIGHT/4 + selection * 15 + 7, BLACK);
+		rectfill(screen, WIDTH/12 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 + selection * 15 + 7, BLACK);
 		selection++;
-		rectfill(screen, WIDTH/8 + 1, HEIGHT/4 +  selection * 15 - 1, WIDTH/8 + 9, HEIGHT/4 + selection * 15 + 7, WHITE);
+		rectfill(screen, WIDTH/12 + 1, HEIGHT/4 +  selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 + selection * 15 + 7, WHITE);
 	}
 	else if (key[KEY_UP] && selection != 0) {
-		rectfill(screen, WIDTH/8 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/8 + 9, HEIGHT/4 +  selection * 15 + 7, BLACK);
+		rectfill(screen, WIDTH/12 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 +  selection * 15 + 7, BLACK);
 		selection--;
-		rectfill(screen, WIDTH/8 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/8 + 9, HEIGHT/4 + selection * 15 + 7, WHITE);
+		rectfill(screen, WIDTH/12 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 + selection * 15 + 7, WHITE);
 	}
 	else if (key[KEY_ENTER]) {
 		return 1;
@@ -88,6 +88,7 @@ void parse_questions(Question questions[], const char* textfile)
 			end_position = strcspn(line, "\n") - 1;
 			if (strncmp(line, "-", 1) == 0) {
 				current_question++;
+				answer = 0;
 				strncpy(questions[current_question].str_question, &line[1], end_position);
 				strncpy(&questions[current_question].str_question[end_position], "\0", 1);
 			}
@@ -103,14 +104,6 @@ void parse_questions(Question questions[], const char* textfile)
 		fclose(file);
 	}
 	else {
-		textprintf_ex(screen, font, 0, 300, WHITE, BLACK, "filename: %s, current_question: %i", textfile, current_question);
-		rest(500);
-		while(1) {
-			if (key[KEY_LEFT]) {
-	    		break;
-	    	}
-			rest(100);
-		};
 		allegro_exit();
 		exit(0);
 	}
@@ -131,37 +124,37 @@ void print_options(Option options[], const char* title, int max, int cont) {
 	int position = 0;
 	
 	// Print title
-	textprintf_ex(screen, font, WIDTH/8, HEIGHT/4 - 20, WHITE, BLACK, "%s", title);
+	textprintf_ex(screen, font, WIDTH/12, HEIGHT/4 - 20, WHITE, BLACK, "%s", title);
 	
 	for(i = 0; i < max; i++) {
-    	rect(screen, WIDTH/8, HEIGHT/4 + position - 2, WIDTH/8 + 10, HEIGHT/4 + position + 8, WHITE);
-    	textprintf_ex(screen, font, WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK, "%s", options[i].str_name);
+    	rect(screen, WIDTH/12, HEIGHT/4 + position - 2, WIDTH/12 + 10, HEIGHT/4 + position + 8, WHITE);
+    	textprintf_ex(screen, font, WIDTH/12 + 24, HEIGHT/4 + position, WHITE, BLACK, "%s", options[i].str_name);
     	position += 15;
     }
     
     if (cont == 1) {
-    	rect(screen, WIDTH/8, HEIGHT/4 + position - 2, WIDTH/8 + 10, HEIGHT/4 + position + 8, WHITE);
-	    textout_ex(screen, font, "Continue", WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK);
+    	rect(screen, WIDTH/12, HEIGHT/4 + position - 2, WIDTH/12 + 10, HEIGHT/4 + position + 8, WHITE);
+	    textout_ex(screen, font, "Continue", WIDTH/12 + 24, HEIGHT/4 + position, WHITE, BLACK);
     }
     
     selection = 0;
-    rectfill(screen, WIDTH/8 + 1, HEIGHT/4 - 1, WIDTH/8 + 9, HEIGHT/4 + 7, WHITE);
+    rectfill(screen, WIDTH/12 + 1, HEIGHT/4 - 1, WIDTH/12 + 9, HEIGHT/4 + 7, WHITE);
 }
 
 void print_textbook_options() {
 	int position = 0;
-    textout_ex(screen, font, "Please select an option to choose your questions!", WIDTH/8, HEIGHT/4 - 20, WHITE, BLACK);
+    textout_ex(screen, font, "Please select an option to choose your questions!", WIDTH/12, HEIGHT/4 - 20, WHITE, BLACK);
     
-    rect(screen, WIDTH/8, HEIGHT/4 + position - 2, WIDTH/8 + 10, HEIGHT/4 + position + 8, WHITE);
-    textout_ex(screen, font, "All Questions (Whole textbook)", WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK);
+    rect(screen, WIDTH/12, HEIGHT/4 + position - 2, WIDTH/12 + 10, HEIGHT/4 + position + 8, WHITE);
+    textout_ex(screen, font, "All Questions (Whole textbook)", WIDTH/12 + 24, HEIGHT/4 + position, WHITE, BLACK);
     position += 15;
-    rect(screen, WIDTH/8, HEIGHT/4 + position - 2, WIDTH/8 + 10, HEIGHT/4 + position + 8, WHITE);
-    textout_ex(screen, font, "Choose by Unit", WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK);
+    rect(screen, WIDTH/12, HEIGHT/4 + position - 2, WIDTH/12 + 10, HEIGHT/4 + position + 8, WHITE);
+    textout_ex(screen, font, "Choose by Unit", WIDTH/12 + 24, HEIGHT/4 + position, WHITE, BLACK);
     position += 15;
-    rect(screen, WIDTH/8, HEIGHT/4 + position - 2, WIDTH/8 + 10, HEIGHT/4 + position + 8, WHITE);
-    textout_ex(screen, font, "Choose by Chapter", WIDTH/8 + 24, HEIGHT/4 + position, WHITE, BLACK);
+    rect(screen, WIDTH/12, HEIGHT/4 + position - 2, WIDTH/12 + 10, HEIGHT/4 + position + 8, WHITE);
+    textout_ex(screen, font, "Choose by Chapter", WIDTH/12 + 24, HEIGHT/4 + position, WHITE, BLACK);
     
-    rectfill(screen, WIDTH/8 + 1, HEIGHT/4 - 1, WIDTH/8 + 9, HEIGHT/4 + 7, WHITE);
+    rectfill(screen, WIDTH/12 + 1, HEIGHT/4 - 1, WIDTH/12 + 9, HEIGHT/4 + 7, WHITE);
 }
 
 void parse_all_questions(Question questions[], const char* folderpath) {
@@ -276,13 +269,6 @@ int main(void)
     	parse_all_questions(questions, concat(folder_topic, QUESTION_FOLDER));
     	
     	all_questions = 1;
-    	/*
-    	textprintf_ex(screen, font, 0, 30, WHITE, BLACK, "%s", questions[0].str_question);
-	    textprintf_ex(screen, font, 0, 40, WHITE, BLACK, "A. %s", questions[0].str_answer[0]);
-	    textprintf_ex(screen, font, 0, 50, WHITE, BLACK, "B. %s", questions[0].str_answer[1]);
-	    textprintf_ex(screen, font, 0, 60, WHITE, BLACK, "C. %s", questions[0].str_answer[2]);
-	    textprintf_ex(screen, font, 0, 70, WHITE, BLACK, "D. %s", questions[0].str_answer[3]);
-	    */
     }
     else if (selection == 1) {
     	text_options = (Option *) malloc(sizeof(Option) * MAX_UNITNUMBER);
@@ -316,12 +302,12 @@ int main(void)
 					if (text_options[selection].selected == 1) {
 						text_options[selection].selected = 0;
 						num_files -= text_options[selection].files;
-						rect(screen, WIDTH/8, HEIGHT/4 + selection * 15 - 2, WIDTH/8 + 10, HEIGHT/4 + selection * 15 + 8, WHITE);
+						rect(screen, WIDTH/12, HEIGHT/4 + selection * 15 - 2, WIDTH/12 + 10, HEIGHT/4 + selection * 15 + 8, WHITE);
 					}
 					else {
 						text_options[selection].selected = 1;
 						num_files += text_options[selection].files;
-						rect(screen, WIDTH/8, HEIGHT/4 + selection * 15 - 2, WIDTH/8 + 10, HEIGHT/4 + selection * 15 + 8, RED);
+						rect(screen, WIDTH/12, HEIGHT/4 + selection * 15 - 2, WIDTH/12 + 10, HEIGHT/4 + selection * 15 + 8, RED);
 					}
 				}
 	    	}
@@ -335,47 +321,23 @@ int main(void)
 			if (text_options[i].selected == 1) {
 				for (j = 0; j < text_options[i].files; j++) {
 					current_file++;
-					//end_position = strcspn(text_options[selection].str_filename[j], "\n");
-	    			//strncpy(&text_options[selection].str_filename[j][end_position], "\0", 1);
-	    			textprintf_ex(screen, font, 0, 400, WHITE, BLACK, "NUM: %i, Loop: %i, file num: %i, file: %s", text_options[i].files, i, j, text_options[i].str_filename[j]);
-	    			rest(1000);
-				    while(1) {
-						if (getinput() == 1) {
-				    		break;
-				    	}
-						rest(100);
-					};
 					parse_questions(&questions[current_file * MAX_QUESTIONS_PER_FILE], concat(concat(folder_topic, QUESTION_FOLDER), text_options[i].str_filename[j]));
 				}
 			}
 		}
 	}
-    /*
-    Question* question1;
-    question1 = (struct Question*) malloc(1 * sizeof(struct Question));
-    parse_questions(question1, "Questions\\chapter1x.txt");
-    */
-    
-    rest(1000);
-    
-    while(1) {
-		if (getinput() == 1) {
-    		break;
-    	}
-		rest(100);
-	};
-    
     
     // Clear screen
     rectfill(screen, 0, 0, WIDTH, HEIGHT, BLACK);
     
     textprintf_ex(screen, font, 0, 30, WHITE, BLACK, "%s", questions[0].str_question);
-    //textprintf_ex(screen, font, 0, 40, WHITE, BLACK, "A. %s", questions[0].str_answer[0]);
-    //textprintf_ex(screen, font, 0, 50, WHITE, BLACK, "B. %s", questions[0].str_answer[1]);
-    //textprintf_ex(screen, font, 0, 60, WHITE, BLACK, "C. %s", questions[0].str_answer[2]);
-    //textprintf_ex(screen, font, 0, 70, WHITE, BLACK, "D. %s", questions[0].str_answer[3]);
+    textprintf_ex(screen, font, 0, 40, WHITE, BLACK, "A. %s", questions[0].str_answer[0]);
+    textprintf_ex(screen, font, 0, 50, WHITE, BLACK, "B. %s", questions[0].str_answer[1]);
+    textprintf_ex(screen, font, 0, 60, WHITE, BLACK, "C. %s", questions[0].str_answer[2]);
+    textprintf_ex(screen, font, 0, 70, WHITE, BLACK, "D. %s", questions[0].str_answer[3]);
     
     rest(1000);
+    
     
     while(1) {
 		if (getinput() == 1) {
@@ -384,9 +346,9 @@ int main(void)
 		rest(100);
 	};
     
-    free(questions);
     free(text_options);
-    allegro_exit();
+    free(questions);
+	allegro_exit();
 	return 0;
 }     
 END_OF_MAIN()
