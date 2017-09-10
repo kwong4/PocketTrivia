@@ -1,4 +1,4 @@
--What is the name of the map editor we’ve been using in this chapter?
+-What is the name of the map editor we've been using in this chapter?
  Tile Editor
  Map Edit
 *Mappy

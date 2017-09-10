@@ -10,7 +10,7 @@
  FreeBSD
 -What compiler can you use to compile the programs in this book?
  Dev-C++
- Borland C++Builder
+ Borland C++ Builder
  Microsoft Visual C++
 *All of the above
 -Which operating system does Allegro support?
@@ -42,7 +42,7 @@
 *Masters of Doom
  The Age of Spiritual Machines
  The Inmates Are Running the Asylum
- SiliconSnakeOil
+ Silicon Snake Oil
 -According to the author, which of the following is one of the best games made in the 1980s?
  Civilization III
  Counter-Strike

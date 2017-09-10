@@ -28,7 +28,7 @@
  7.0 (2002)
 *7.1 (2003)
  8.0 (2005)
--What distinctive feature of Dev-C++ sets it apart from commercial devel- opment tools?
+-What distinctive feature of Dev-C++ sets it apart from commercial development tools?
  Dev-C++ is open-source
  Dev-C++ is free
  Dev-C++ is multi-platform

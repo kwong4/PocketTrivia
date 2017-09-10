@@ -34,12 +34,12 @@ slowing down the program?
  pause_proc
  wait_func
  sleep_callback
--Which function should you use to slow down the game, causing the pro- gram to pause for a certain number of millseconds?
+-Which function should you use to slow down the game, causing the program to pause for a certain number of millseconds?
  wait
  pause
 *rest
  sleep
--What function must you call to prepare a variable for use within an inter- rupt callback routine?
+-What function must you call to prepare a variable for use within an interrupt callback routine?
  lock_object
 *LOCK_VARIABLE
  prepare_variable

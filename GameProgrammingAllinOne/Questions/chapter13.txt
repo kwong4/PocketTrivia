@@ -42,7 +42,7 @@
  $10
  $20
  $30
-*It’s free!
+*It's free!
 -What scripting language does Mappy support?
  BASIC
 *LUA

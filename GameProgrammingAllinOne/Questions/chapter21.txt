@@ -3,7 +3,7 @@
 *pthread
  allegThreads
  BerkeleyThreads
--Which company maintains the multi-threading library for Windows sys- tems used in this chapter?
+-Which company maintains the multi-threading library for Windows systems used in this chapter?
 *Red Hat
  Microsoft
  Sears

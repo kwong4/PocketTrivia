@@ -38,7 +38,7 @@
  GetDataBlock
  GetTileAt
  MapGetTile
--What is the name of the function that draws the map’s background?
+-What is the name of the function that draws the map's background?
 *MapDrawBG
  DrawBackground
  DrawMapBack

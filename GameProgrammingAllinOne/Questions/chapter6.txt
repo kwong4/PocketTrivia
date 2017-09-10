@@ -34,11 +34,11 @@
  halt_playback
 *stop_sample
 -Within what range must a panning value remain?
- –32,768 to 32,767
+ 32,768 to 32,767
  0 to 65,536
  1 to 100
 *0 to 255
--What parameter should you pass to install_sound to initialize the stan- dard digital sound driver?
+-What parameter should you pass to install_sound to initialize the standard digital sound driver?
  SND_AUTODETECT
  SND_AUTODETECT_DIGITAL
 *DIGI_AUTODETECT

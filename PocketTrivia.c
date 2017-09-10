@@ -8,24 +8,40 @@ using namespace std;
 // Change Questions answers to char* and malloc correct amount of space.
 // Do this in conjuction with a cleanup function (free)
 
-int getinput() {
+int getinput(int gamemode) {
 	if (key[KEY_ESC]) {
 		allegro_exit();
 		exit(0);
 	}
 	
-	if (key[KEY_DOWN] && selection != max_selection) {
-		rectfill(screen, WIDTH/12 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 + selection * 15 + 7, BLACK);
-		selection++;
-		rectfill(screen, WIDTH/12 + 1, HEIGHT/4 +  selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 + selection * 15 + 7, WHITE);
+	if (gamemode == 0) {
+		if (key[KEY_DOWN] && selection != max_selection) {
+			rectfill(screen, WIDTH/12 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 + selection * 15 + 7, BLACK);
+			selection++;
+			rectfill(screen, WIDTH/12 + 1, HEIGHT/4 +  selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 + selection * 15 + 7, WHITE);
+		}
+		else if (key[KEY_UP] && selection != 0) {
+			rectfill(screen, WIDTH/12 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 +  selection * 15 + 7, BLACK);
+			selection--;
+			rectfill(screen, WIDTH/12 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 + selection * 15 + 7, WHITE);
+		}
+		else if (key[KEY_ENTER]) {
+			return -1;
+		}
 	}
-	else if (key[KEY_UP] && selection != 0) {
-		rectfill(screen, WIDTH/12 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 +  selection * 15 + 7, BLACK);
-		selection--;
-		rectfill(screen, WIDTH/12 + 1, HEIGHT/4 + selection * 15 - 1, WIDTH/12 + 9, HEIGHT/4 + selection * 15 + 7, WHITE);
-	}
-	else if (key[KEY_ENTER]) {
-		return 1;
+	else {
+		if (key[KEY_1] || key[KEY_1_PAD]) {
+			return 1;
+		}
+		else if (key[KEY_2] || key[KEY_2_PAD]) {
+			return 2;
+		}
+		else if (key[KEY_3] || key[KEY_3_PAD]) {
+			return 3;
+		}
+		else if (key[KEY_4] || key[KEY_4_PAD]) {
+			return 4;
+		}
 	}
 	
 	return 0;
@@ -94,7 +110,7 @@ void parse_questions(Question questions[], const char* textfile)
 			}
 			else {
 				if (strncmp(line, "*", 1) == 0) {
-					questions[current_question].answer = answer;
+					questions[current_question].answer = answer + 1;
 				}
 				strncpy(questions[current_question].str_answer[answer], &line[1], end_position);
 				strncpy(&questions[current_question].str_answer[answer][end_position], "\0", 1);
@@ -176,6 +192,34 @@ void parse_all_questions(Question questions[], const char* folderpath) {
 	fclose(file);
 }
 
+void start_questions(Question questions[], int num_questions) {
+	int i;
+	int correct = 0;
+	int user_guess;
+	for (i = 0; i < num_questions; i++) {
+		
+		rest(500);
+		// Clear screen
+    	rectfill(screen, 0, 0, WIDTH, HEIGHT, BLACK);
+    	textprintf_centre_ex(screen, font, WIDTH/2, 0, WHITE, BLACK, "User Score: %i/%i", correct, i);
+		textprintf_ex(screen, font, 30, 30, WHITE, BLACK, "%s", questions[i].str_question);
+		textprintf_ex(screen, font, 30, 40, WHITE, BLACK, "A. %s", questions[i].str_answer[0]);
+	    textprintf_ex(screen, font, 30, 50, WHITE, BLACK, "B. %s", questions[i].str_answer[1]);
+	    textprintf_ex(screen, font, 30, 60, WHITE, BLACK, "C. %s", questions[i].str_answer[2]);
+	    textprintf_ex(screen, font, 30, 70, WHITE, BLACK, "D. %s", questions[i].str_answer[3]);
+	    
+	    while(1) {
+	    	user_guess = getinput(1);
+	    	if (user_guess > 0) {
+	    		if (user_guess == questions[i].answer) {
+	    			correct++;	
+	    		}
+	    		break;
+	    	}
+	    }
+	}
+}
+
 int main(void)
 {
 	
@@ -232,7 +276,7 @@ int main(void)
     
     //Wait until user press Enter
     while(1) {
-    	if (getinput() == 1) {
+    	if (getinput(0) == -1) {
     		break;
     	}
 		rest(100);
@@ -254,7 +298,7 @@ int main(void)
     rest(1000);
     
     while(1) {
-		if (getinput() == 1) {
+		if (getinput(0) == -1) {
     		break;
     	}
 		rest(100);
@@ -267,6 +311,8 @@ int main(void)
     	questions = (Question *) malloc(sizeof(Question) * MAX_QUESTIONS_PER_FILE *  MAX_CHAPTERNUMBER);
     	
     	parse_all_questions(questions, concat(folder_topic, QUESTION_FOLDER));
+    	
+    	num_files = MAX_QUESTIONS_PER_FILE;
     	
     	all_questions = 1;
     }
@@ -294,7 +340,7 @@ int main(void)
 		rest(500);
 		
 		while(1) {
-			if (getinput() == 1) {
+			if (getinput(0) == -1) {
 				if (selection == max_selection) {
 					break;
 				}
@@ -327,24 +373,9 @@ int main(void)
 		}
 	}
     
-    // Clear screen
-    rectfill(screen, 0, 0, WIDTH, HEIGHT, BLACK);
-    
-    textprintf_ex(screen, font, 0, 30, WHITE, BLACK, "%s", questions[0].str_question);
-    textprintf_ex(screen, font, 0, 40, WHITE, BLACK, "A. %s", questions[0].str_answer[0]);
-    textprintf_ex(screen, font, 0, 50, WHITE, BLACK, "B. %s", questions[0].str_answer[1]);
-    textprintf_ex(screen, font, 0, 60, WHITE, BLACK, "C. %s", questions[0].str_answer[2]);
-    textprintf_ex(screen, font, 0, 70, WHITE, BLACK, "D. %s", questions[0].str_answer[3]);
-    
     rest(1000);
     
-    
-    while(1) {
-		if (getinput() == 1) {
-    		break;
-    	}
-		rest(100);
-	};
+    start_questions(questions, num_files * MAX_QUESTIONS_PER_FILE);
     
     free(text_options);
     free(questions);

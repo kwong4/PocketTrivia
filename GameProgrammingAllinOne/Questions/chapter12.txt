@@ -1,6 +1,6 @@
 -Does Allegro provide support for background scrolling?
 *Yes, but the functionality is obsolete
- Yes, it’s fully integrated
+ Yes, it's fully integrated
  Only partially
  Not at all
 -What does a scroll window show?
@@ -14,7 +14,7 @@
 *ScrollScreen
  ScrollTest
 -Why should a scrolling background be designed?
- To improve the game’s appearance
+ To improve the game's appearance
  To enlarge the game world
  To increase sales potential
 *To achieve the goals of the game

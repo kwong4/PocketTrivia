@@ -10,8 +10,8 @@ using namespace std;
 
 //define some game constants
 #define MODE GFX_AUTODETECT_WINDOWED
-#define WIDTH 640
-#define HEIGHT 480
+#define WIDTH 800
+#define HEIGHT 600
 #define WHITE makecol(255,255,255)
 #define YELLOW makecol(255,216,0)
 #define RED makecol(255,0,0)

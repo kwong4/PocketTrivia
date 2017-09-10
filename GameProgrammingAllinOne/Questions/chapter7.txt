@@ -18,11 +18,11 @@
  create_bitmap
  OBJECT
 *BITMAP
--Allegorically speaking, why is it important to destroy bitmaps after you’re done using them?
+-Allegorically speaking, why is it important to destroy bitmaps after you're done using them?
  Because bitmaps are evil and must be destroyed.
  Because Microsoft Windows is the mayor.
 *Because the trash will pile up over time.
- Because you can’t reboot your home town.
+ Because you can't reboot your home town.
 -Which Allegro function has the potential to create a black hole if used improperly?
 *acquire_bitmap
  create_supernova
@@ -39,12 +39,12 @@
  scaled_blit
  masked_scaled_blit
 -Why would you want to lock the screen while drawing on it?
-*If it’s not locked, Allegro will lock and unlock the screen for every draw.
+*If it's not locked, Allegro will lock and unlock the screen for every draw.
  To prevent anyone else from drawing on your screen.
- To keep the screen from getting away while you’re using it.
+ To keep the screen from getting away while you're using it.
  To prevent a feedback loop that could destroy your monitor.
--What is the name of the game you’ve been developing in this book?
+-What is the name of the game you've been developing in this book?
  Super Allegro Bros.
- Barbie’s Motorhome Adventure
+ Barbie's Motorhome Adventure
  Teenage Neutered Midget Poodles
 *Tank War

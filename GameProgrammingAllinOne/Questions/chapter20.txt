@@ -33,7 +33,7 @@
 *Deterministic algorithm
  Fuzzy logic
  Neural network
--Which type of deterministic algorithm ‘‘fakes’’ intelligence?
+-Which type of deterministic algorithm "fakes" intelligence?
  Patterns
  Tracking
 *Random motion
