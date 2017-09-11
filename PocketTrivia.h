@@ -30,6 +30,7 @@ using namespace std;
 #define MAX_CHAPTERNUMBER 22
 #define MAX_QUESTIONS_PER_FILE 10
 #define SELECTION_BUFFER 70
+#define CHAR_PER_LENGTH 8
 
 int selection;
 int max_selection;
