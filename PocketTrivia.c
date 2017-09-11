@@ -197,7 +197,11 @@ void draw_startscreen() {
     textout_ex(screen, font, "1. Use the arrow keys to navigate menu selection", WIDTH/8, HEIGHT/2 + 60, WHITE, BLACK);
     textout_ex(screen, font, "2. Use the ENTER key to select an option", WIDTH/8, HEIGHT/2 + 70, WHITE, BLACK);
     textout_ex(screen, font, "3. Then use the NUMBER keys to choose an answer for a question", WIDTH/8, HEIGHT/2 + 80, WHITE, BLACK);
-    textout_ex(screen, font, "4. Press Esc to exit the game!", WIDTH/8, HEIGHT/2 + 90, WHITE, BLACK);
+    textout_ex(screen, font, "   A. = 1", WIDTH/8, HEIGHT/2 + 90, YELLOW, BLACK);
+    textout_ex(screen, font, "   B. = 2", WIDTH/8, HEIGHT/2 + 100, YELLOW, BLACK);
+    textout_ex(screen, font, "   C. = 3", WIDTH/8, HEIGHT/2 + 110, YELLOW, BLACK);
+    textout_ex(screen, font, "   D. = 4", WIDTH/8, HEIGHT/2 + 120, YELLOW, BLACK);
+    textout_ex(screen, font, "4. Press Esc to exit the game!", WIDTH/8, HEIGHT/2 + 130, WHITE, BLACK);
 }
 
 // Print the options in correct format

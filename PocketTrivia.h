@@ -20,7 +20,7 @@ using namespace std;
 #define MAX_ANSWER 4
 #define MAX_FILE 10
 #define TOPIC "topics.txt"
-#define TOPICNUMBER 2
+#define TOPICNUMBER 1
 #define TEXT "texts.txt"
 #define TEXTNUMBER 1
 #define UNIT "units.txt"
