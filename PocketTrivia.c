@@ -281,6 +281,28 @@ void parse_all_questions(Question questions[], const char* folderpath) {
 	fclose(file);
 }
 
+// Randomize order
+void randomize_order(int order[], int size) {
+	
+	//Initalize variable
+	int i;
+	int temp;
+	int swap;
+	
+	// Allocate all numbers
+	for (i = 0; i < size; i++) {
+		order[i] = i;	
+	}
+	
+	// Randomize and swap numbers
+	for (i = 0; i < size; i++) {
+		swap = rand() % size;
+		temp = order[i];
+		order[i] = order[swap];
+		order[swap] = temp;
+	}
+}
+
 // Initalize Trivia Game
 void start_questions(Question questions[], int num_questions) {
 	
@@ -288,6 +310,9 @@ void start_questions(Question questions[], int num_questions) {
 	int i;
 	int correct = 0;
 	int user_guess;
+	int order[num_questions];
+	
+	randomize_order(order, num_questions);
 	
 	// Cycle through all Questions
 	for (i = 0; i < num_questions; i++) {
@@ -310,18 +335,24 @@ void start_questions(Question questions[], int num_questions) {
     	rect(screen, 20, HEIGHT * 6 / 7 - 10, WIDTH - 20, HEIGHT - 20, WHITE);
     	
     	// Text
-    	print_formated(concat("Q. ", questions[i].str_question), 30, WIDTH - 30, 70, WHITE, BLACK);
-    	print_formated(concat("A. ", questions[i].str_answer[0]), 30, WIDTH - 30, HEIGHT * 3 / 7, WHITE, BLACK);
-    	print_formated(concat("B. ", questions[i].str_answer[1]), 30, WIDTH - 30, HEIGHT * 4 / 7, WHITE, BLACK);
-    	print_formated(concat("C. ", questions[i].str_answer[2]), 30, WIDTH - 30, HEIGHT * 5 / 7, WHITE, BLACK);
-    	print_formated(concat("D. ", questions[i].str_answer[3]), 30, WIDTH - 30, HEIGHT * 6 / 7, WHITE, BLACK);
+    	print_formated(concat("Q. ", questions[order[i]].str_question), 30, WIDTH - 30, 70, WHITE, BLACK);
+    	print_formated(concat("A. ", questions[order[i]].str_answer[0]), 30, WIDTH - 30, HEIGHT * 3 / 7, WHITE, BLACK);
+    	print_formated(concat("B. ", questions[order[i]].str_answer[1]), 30, WIDTH - 30, HEIGHT * 4 / 7, WHITE, BLACK);
+    	print_formated(concat("C. ", questions[order[i]].str_answer[2]), 30, WIDTH - 30, HEIGHT * 5 / 7, WHITE, BLACK);
+    	print_formated(concat("D. ", questions[order[i]].str_answer[3]), 30, WIDTH - 30, HEIGHT * 6 / 7, WHITE, BLACK);
 	    
 	    // Obtain input from user
 	    while(1) {
 	    	user_guess = getinput(1);
 	    	if (user_guess > 0) {
-	    		if (user_guess == questions[i].answer) {
-	    			correct++;	
+	    		if (user_guess == questions[order[i]].answer) {
+	    			correct++;
+	    			masked_blit(correct_pic, screen, 0, 0, WIDTH/4, HEIGHT/4, correct_pic->w, correct_pic->h);
+					play_sample(correct_sound, 128, 128, 1000, FALSE);	
+	    		}
+	    		else {
+	    			masked_blit(incorrect_pic, screen, 0, 0, WIDTH/4, HEIGHT/4, incorrect_pic->w, incorrect_pic->h);
+	    			play_sample(incorrect_sound, 128, 128, 1000, FALSE);	
 	    		}
 	    		break;
 	    	}
@@ -353,6 +384,23 @@ int main(void)
     int end_position;
     int num_files = 0;
     int all_questions = 0;
+    background = load_sample(BACKGROUND_FILE);
+    correct_sound = load_sample(CORRECT_FILE);
+    incorrect_sound = load_sample(INCORRECT_FILE);
+    correct_pic = load_bitmap(CHECK_FILE, NULL);
+    incorrect_pic = load_bitmap("incorrect.pcx", NULL);
+    
+    //install a digital sound driver
+    if (install_sound(DIGI_AUTODETECT, MIDI_NONE, "") != 0) {
+    	allegro_message("Error initalizing sound system");
+		return 1;	
+    }
+    
+    // Check if sound files loaded
+    if (!background || !correct_sound || !incorrect_sound) {
+    	allegro_message("Error reading wave files");
+    	return 1;
+    }
     
     //Initialize Graphics
     int ret;
@@ -361,6 +409,14 @@ int main(void)
         allegro_message(allegro_error);
         return 0;
     }
+    
+    // Check if BITMAP files loaded
+    if (!incorrect_pic) {
+    	allegro_message("Error reading bitmap files");
+    	return 1;
+    }
+    
+    play_sample(background, 128, 128, 1000, TRUE);
     
     //Print initial Start Screen with instructions
     draw_startscreen();
@@ -525,6 +581,12 @@ int main(void)
     // Free variables and Exit
     free(text_options);
     free(questions);
+    destroy_sample(background);
+    destroy_sample(correct_sound);
+    destroy_sample(incorrect_sound);
+    destroy_bitmap(correct_pic);
+    destroy_bitmap(incorrect_pic);
+    remove_sound();
 	allegro_exit();
 	return 0;
 }     
