@@ -31,11 +31,11 @@ using namespace std;
 #define MAX_QUESTIONS_PER_FILE 10
 #define SELECTION_BUFFER 70
 #define CHAR_PER_LENGTH 8
-#define BACKGROUND_FILE "background.wav"
-#define CORRECT_FILE "chime.wav"
-#define INCORRECT_FILE "whah_whah.wav"
-#define ERROR_FILE "incorrect.bmp"
-#define CHECK_FILE "correct.bmp"
+#define BACKGROUND_FILE "Sounds/background.wav"
+#define CORRECT_FILE "Sounds/chime.wav"
+#define INCORRECT_FILE "Sounds/whah_whah.wav"
+#define ERROR_FILE "Pictures/incorrect.bmp"
+#define CHECK_FILE "Pictures/correct.bmp"
 
 int selection;
 int max_selection;

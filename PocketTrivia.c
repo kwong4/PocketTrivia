@@ -347,11 +347,11 @@ void start_questions(Question questions[], int num_questions) {
 	    	if (user_guess > 0) {
 	    		if (user_guess == questions[order[i]].answer) {
 	    			correct++;
-	    			masked_blit(correct_pic, screen, 0, 0, WIDTH/4, HEIGHT/4, correct_pic->w, correct_pic->h);
+	    			masked_blit(correct_pic, screen, 0, 0, WIDTH/8, HEIGHT/8, correct_pic->w, correct_pic->h);
 					play_sample(correct_sound, 128, 128, 1000, FALSE);	
 	    		}
 	    		else {
-	    			masked_blit(incorrect_pic, screen, 0, 0, WIDTH/4, HEIGHT/4, incorrect_pic->w, incorrect_pic->h);
+	    			masked_blit(incorrect_pic, screen, 0, 0, WIDTH/8, HEIGHT/8, incorrect_pic->w, incorrect_pic->h);
 	    			play_sample(incorrect_sound, 128, 128, 1000, FALSE);	
 	    		}
 	    		break;
@@ -388,7 +388,7 @@ int main(void)
     correct_sound = load_sample(CORRECT_FILE);
     incorrect_sound = load_sample(INCORRECT_FILE);
     correct_pic = load_bitmap(CHECK_FILE, NULL);
-    incorrect_pic = load_bitmap("incorrect.pcx", NULL);
+    incorrect_pic = load_bitmap(ERROR_FILE, NULL);
     
     //install a digital sound driver
     if (install_sound(DIGI_AUTODETECT, MIDI_NONE, "") != 0) {
@@ -411,7 +411,7 @@ int main(void)
     }
     
     // Check if BITMAP files loaded
-    if (!incorrect_pic) {
+    if (!incorrect_pic || !correct_pic) {
     	allegro_message("Error reading bitmap files");
     	return 1;
     }
