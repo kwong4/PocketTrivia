@@ -454,6 +454,9 @@ int main(void)
 		rest(100);
 	};
     
+    // Slow game down
+    rest(500);
+    
     // Clear screen
     rectfill(screen, 0, 0, WIDTH, HEIGHT, BLACK);
     
